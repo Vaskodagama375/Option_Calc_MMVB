@@ -26,6 +26,7 @@
     body {
       margin: 0;
       min-height: 100vh;
+      overflow-x: hidden;
       color: var(--text);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
@@ -50,18 +51,18 @@
     }
     .header-note { color: var(--muted); font-size: 13px; }
 
-    .hero { padding: 54px 0 38px; max-width: 950px; }
+    .hero { padding: 30px 0 24px; max-width: 1050px; }
     .eyebrow { color: var(--mint); font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
-    h1 { margin: 14px 0 18px; font-size: clamp(42px, 7vw, 88px); line-height: .97; letter-spacing: -.065em; font-weight: 740; }
-    .hero p { margin: 0; max-width: 720px; color: #bfd0d6; font-size: clamp(17px, 2vw, 21px); line-height: 1.55; }
-    .hero-tags { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 26px; }
+    h1 { margin: 10px 0 12px; font-size: clamp(38px, 5vw, 66px); line-height: .98; letter-spacing: -.055em; font-weight: 740; }
+    .hero p { margin: 0; max-width: 780px; color: #bfd0d6; font-size: clamp(15px, 1.6vw, 18px); line-height: 1.5; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
     .tag { padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; color: #b9cbd2; font-size: 13px; background: rgba(255,255,255,.025); }
 
-    .strategy-strip { margin: 18px 0 26px; }
+    .strategy-strip { min-width:0; margin: 18px 0 26px; }
     .section-label { display: flex; justify-content: space-between; align-items: end; margin-bottom: 14px; }
     .section-label h2 { margin: 0; font-size: 19px; letter-spacing: -.02em; }
     .section-label span { color: var(--muted); font-size: 13px; }
-    .strategies { display: grid; grid-template-columns: repeat(5, minmax(190px, 1fr)); gap: 12px; overflow-x: auto; padding-bottom: 6px; }
+    .strategies { display: grid; grid-template-columns: repeat(5, minmax(190px, 1fr)); max-width:100%; gap: 12px; overflow-x: auto; padding-bottom: 6px; }
     .strategy {
       min-width: 190px; min-height: 118px; padding: 17px; text-align: left; cursor: pointer;
       border: 1px solid var(--line); border-radius: 17px; background: rgba(255,255,255,.025);
@@ -72,7 +73,13 @@
     .strategy .type { display: inline-block; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .11em; margin-bottom: 13px; }
     .strategy strong { display: block; font-size: 15px; margin-bottom: 7px; }
     .strategy small { color: var(--muted); line-height: 1.35; }
+    .strategy-spark { display:block; width:100%; height:35px; margin:10px 0 2px; overflow:visible; }
+    .strategy-spark .axis { stroke:rgba(183,213,224,.16); stroke-width:1; }
+    .strategy-spark .payoff { fill:none; stroke:var(--mint); stroke-width:2; vector-effect:non-scaling-stroke; }
     .strategy.hidden { display: none; }
+    .category-filters { display:flex; flex-wrap:wrap; gap:7px; margin:0 0 14px; }
+    .category-btn { padding:7px 11px; border:1px solid var(--line); border-radius:999px; background:rgba(255,255,255,.018); color:var(--muted); cursor:pointer; font-size:11px; }
+    .category-btn.active { color:#071016; background:var(--mint); border-color:var(--mint); font-weight:760; }
     .toolbar { display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; align-items:center; margin:0 0 17px; }
     .segmented { display:flex; gap:4px; padding:4px; border:1px solid var(--line); border-radius:13px; background:rgba(3,10,14,.35); }
     .segmented button { border:0; border-radius:9px; padding:8px 12px; background:transparent; color:var(--muted); cursor:pointer; font-size:12px; }
@@ -90,6 +97,9 @@
     .market-status.ok { color:var(--mint); }
     .market-status.error { color:var(--coral); }
     .market-box.manual .market-grid { opacity:.42; pointer-events:none; }
+    .primary-btn.loading { color:transparent; position:relative; pointer-events:none; }
+    .primary-btn.loading::after { content:""; position:absolute; inset:50% auto auto 50%; width:15px; height:15px; margin:-8px; border:2px solid rgba(7,16,22,.28); border-top-color:#071016; border-radius:50%; animation:spin .7s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
 
     .workspace { display: grid; grid-template-columns: minmax(330px, .78fr) minmax(560px, 1.55fr); gap: 18px; padding-bottom: 70px; }
     .panel { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); backdrop-filter: blur(16px); box-shadow: var(--shadow); }
@@ -118,13 +128,17 @@
     .legs-title { display: flex; justify-content: space-between; align-items: center; margin: 4px 0 10px; }
     .legs-title span:first-child { font-size: 13px; font-weight: 700; }
     .legs-title span:last-child { color: var(--muted); font-size: 11px; }
-    .leg { display: grid; grid-template-columns: 1.15fr .8fr .8fr .58fr auto; align-items: end; gap: 8px; padding: 11px; margin-bottom: 8px; border: 1px solid var(--line); border-left:3px solid var(--mint); border-radius: 14px; background: var(--panel-2); }
+    .leg { display: grid; grid-template-columns: 1.25fr .9fr .9fr .55fr auto; align-items: end; gap: 8px; padding: 9px 10px; margin-bottom: 6px; border: 1px solid var(--line); border-left:3px solid var(--mint); border-radius: 12px; background: var(--panel-2); }
     .leg.short { border-left-color:var(--coral); }
     .leg-name { align-self: center; }
     .leg-name strong { display: block; font-size: 13px; }
     .leg-name small { color: var(--muted); font-size: 11px; }
     .contract-code { display:block; margin-top:4px; color:var(--blue) !important; font-size:9px !important; }
     .market-price-note { display:block; margin-top:4px; color:#7e949d; font-size:9px; font-weight:500; letter-spacing:0; }
+    .quote-badge { display:inline-flex; align-items:center; gap:4px; margin-top:5px; padding:3px 6px; border-radius:999px; font-size:8px; font-weight:800; text-transform:uppercase; letter-spacing:.04em; }
+    .quote-badge.live { color:var(--mint); background:rgba(99,245,191,.1); }
+    .quote-badge.fallback { color:var(--amber); background:rgba(247,199,109,.1); }
+    .quote-badge.missing { color:var(--coral); background:rgba(255,120,111,.1); }
     option.atm-option { color:#071016; background:var(--mint); font-weight:800; }
     select.atm-selected { border-color:var(--mint); box-shadow:0 0 0 2px rgba(99,245,191,.12); }
     .atm-hint { color:var(--mint); }
@@ -174,10 +188,12 @@
       .workspace { grid-template-columns: 1fr; }
     }
     @media (max-width: 650px) {
-      .shell { width: min(100% - 22px, 1480px); }
+      .shell { width: calc(100% - 22px); }
       header { padding-top: 18px; }
       .header-note { display: none; }
       .hero { padding-top: 30px; }
+      h1 { font-size:36px; }
+      .market-box { padding:15px; }
       .controls, .visual { padding: 17px; }
       .leg { grid-template-columns: 1fr 1fr; }
       .leg-name { grid-column: 1 / -1; }
@@ -187,7 +203,8 @@
       .visual-head { display: block; }
       .legend { margin-top: 10px; }
       .market-head { align-items:flex-start; flex-direction:column; }
-      .market-grid { grid-template-columns:1fr; width:100%; }
+      .market-grid { grid-template-columns:minmax(0,1fr); width:100%; }
+      .market-grid label, .market-grid select { min-width:0; max-width:100%; }
     }
   </style>
 </head>
@@ -201,7 +218,7 @@
     <main>
       <section class="hero">
         <div class="eyebrow">Интерактивный учебник</div>
-        <h1>Увидеть стратегию<br>до сделки</h1>
+        <h1>Увидеть стратегию до сделки</h1>
         <p>Выберите конструкцию, настройте страйки и премии — график покажет, где стратегия зарабатывает, где теряет и что произойдёт при движении рынка.</p>
         <div class="hero-tags"><span class="tag">16 шаблонов + конструктор</span><span class="tag">Живой график P&amp;L</span><span class="tag">Расчёт до экспирации</span><span class="tag">Проверка риска</span></div>
       </section>
@@ -223,6 +240,7 @@
 
       <section class="strategy-strip">
         <div class="section-label"><h2>Выберите стратегию</h2><span>От простых к составным</span></div>
+        <div class="category-filters" id="categoryFilters"></div>
         <div class="toolbar">
           <div class="segmented"><button id="beginnerMode" class="active">Простой режим</button><button id="proMode">Расчёт до экспирации</button></div>
           <label class="switch"><input id="onlyBuy" type="checkbox"> Стратегии на ЕБС</label>
@@ -397,12 +415,20 @@
       }
     };
 
-    const state = { template:templates[0], legs:[], spotQty:0, points:[], beforePoints:[], pro:false, onlyBuy:false, marketMode:false, marketRows:[], marketAsset:'', marketUnderlying:'', marketExpiry:'', marketStrike:0 };
+    const state = { template:templates[0], legs:[], spotQty:0, points:[], beforePoints:[], pro:false, onlyBuy:false, category:'Все', marketMode:false, marketRows:[], marketAsset:'', marketUnderlying:'', marketExpiry:'', marketStrike:0 };
     const $ = id => document.getElementById(id);
     const fmt = (n,d=0) => new Intl.NumberFormat('ru-RU',{maximumFractionDigits:d,minimumFractionDigits:d}).format(n);
     const money = n => `${n>0?'+':n<0?'−':''}${fmt(Math.abs(n),2)} ₽`;
     const MOEX_OPTIONS='https://iss.moex.com/iss/engines/futures/markets/options/securities.json';
     const FALLBACK_ASSETS=['Si','RI','MXI','SBRF','GAZR','LKOH','GOLD','CNY','EUR','AFLT'];
+
+    function sparkline(template){
+      const legs=template.legs.map(x=>({type:x[0],qty:x[1],strike:x[2],premium:x[3]})),spot=3000,values=[];
+      for(let i=0;i<=34;i++){const price=1700+i*2600/34,y=(template.spotQty||0)*(price-spot)+legs.reduce((a,l)=>a+l.qty*(intrinsic(l.type,price,l.strike)-l.premium),0);values.push({x:i*100/34,y});}
+      let min=Math.min(...values.map(x=>x.y),0),max=Math.max(...values.map(x=>x.y),0);if(max===min){max++;min--;}
+      const py=y=>32-(y-min)/(max-min)*27,points=values.map(p=>`${p.x.toFixed(1)},${py(p.y).toFixed(1)}`).join(' '),zero=py(0).toFixed(1);
+      return `<svg class="strategy-spark" viewBox="0 0 100 36" preserveAspectRatio="none" aria-hidden="true"><line class="axis" x1="0" y1="${zero}" x2="100" y2="${zero}"/><polyline class="payoff" points="${points}"/></svg>`;
+    }
 
     function rowsOf(block){
       if(!block||!Array.isArray(block.columns)||!Array.isArray(block.data))return [];
@@ -429,6 +455,7 @@
       const candidates=qty>0?[[row.OFFER,'лучшая цена продажи (ASK)'],[row.LAST,'последняя сделка'],[row.SETTLEPRICE,'расчётная цена'],[row.SETTLEPRICE_CLR,'клиринговая цена'],[row.PREVSETTLEPRICE,'предыдущая расчётная цена']]:[[row.BID,'лучшая цена покупки (BID)'],[row.LAST,'последняя сделка'],[row.SETTLEPRICE,'расчётная цена'],[row.SETTLEPRICE_CLR,'клиринговая цена'],[row.PREVSETTLEPRICE,'предыдущая расчётная цена']];
       const found=candidates.find(x=>Number(x[0])>0);return found?{value:+found[0],source:found[1]}:{value:0,source:'котировка отсутствует'};
     }
+    function quoteQuality(source){if(/ASK|BID/.test(source||''))return{kind:'live',label:'Рыночная котировка'};if(/отсутствует/.test(source||''))return{kind:'missing',label:'Нет цены'};return{kind:'fallback',label:'Резервная цена'};}
     function marketSeries(){return state.marketRows.filter(x=>x.UNDERLYINGASSET===state.marketUnderlying&&x.LASTTRADEDATE===state.marketExpiry);}
     function underlyingLabel(row){const match=(row.SECNAME||'').match(/фьюч\. контр\.\s*(.+)$/i);return match?`${row.UNDERLYINGASSET} · ${match[1]}`:row.UNDERLYINGASSET;}
     function applyMarketUnderlying(){
@@ -471,10 +498,11 @@
       const nearest=central&&strikes.includes(central)?central:nearestStrike(strikes,+$('spot').value);$('marketStrike').value=String(nearest);state.marketStrike=nearest;$('marketStrike').classList.toggle('atm-selected',nearest===central);$('centralStrikeHint').textContent=central?`Центральный страйк MOEX: ${fmt(central,2)} (ATM)`:'';
       buildMarketLegs(state.template);renderLegs();update();
       const underlying=rows.find(x=>x.UNDERLYINGASSET)?.UNDERLYINGASSET||state.marketAsset;
-      setMarketStatus(`${state.marketAsset} · базовый фьючерс ${underlying} · только маржируемые опционы · экспирация ${state.marketExpiry} · задержка данных около 15 минут`,'ok');
+      const quoteTimes=rows.map(x=>x.SYSTIME).filter(Boolean).sort(),updated=quoteTimes.at(-1)||'время не указано';
+      setMarketStatus(`${state.marketAsset} · базовый фьючерс ${underlying} · маржируемые опционы · экспирация ${state.marketExpiry} · данные на ${updated} · задержка около 15 минут`,'ok');
     }
     async function loadMarketAsset(force=false){
-      const asset=$('marketAsset').value;if(!asset)return;state.marketAsset=asset;setMarketStatus(`Загружаем опционную доску ${asset}…`);$('marketRefresh').disabled=true;
+      const asset=$('marketAsset').value;if(!asset)return;state.marketAsset=asset;setMarketStatus(`Загружаем опционную доску ${asset}…`);$('marketRefresh').disabled=true;$('marketRefresh').classList.add('loading');
       try{
         const cols='SECID,SHORTNAME,SECNAME,ASSETCODE,LASTTRADEDATE,OPTIONTYPE,STRIKE,CENTRALSTRIKE,MINSTEP,STEPPRICE,UNDERLYINGASSET,UNDERLYINGTYPE,UNDERLYINGSETTLEPRICE,PREVSETTLEPRICE,SETTLEPRICE_CLR';
         const marketCols='SECID,BID,OFFER,LAST,SETTLEPRICE,OPENPOSITION,VOLTODAY,SYSTIME';
@@ -487,7 +515,7 @@
         if(!underlyings.length)throw new Error('Для группы нет действующих маржируемых опционов на фьючерсы');
         $('marketUnderlying').value=underlyings[0].UNDERLYINGASSET;state.marketUnderlying=underlyings[0].UNDERLYINGASSET;applyMarketUnderlying();
       }catch(error){state.marketRows=[];setMarketStatus(`Не удалось получить данные: ${error.message}. Ручной режим продолжает работать.`,'error');}
-      finally{$('marketRefresh').disabled=false;}
+      finally{$('marketRefresh').disabled=false;$('marketRefresh').classList.remove('loading');}
     }
     function setDataMode(market){
       state.marketMode=market;$('marketBox').classList.toggle('manual',!market);$('manualData').classList.toggle('active',!market);$('moexData').classList.toggle('active',market);
@@ -498,8 +526,10 @@
     }
 
     function buildStrategies(){
-      $('strategies').innerHTML=templates.map((s,i)=>`<button class="strategy ${i===0?'active':''}" data-id="${s.id}"><span class="type">${s.group}</span><strong>${s.title}</strong><small>${s.short}</small></button>`).join('');
+      $('strategies').innerHTML=templates.map((s,i)=>`<button class="strategy ${i===0?'active':''}" data-id="${s.id}"><span class="type">${s.group}</span><strong>${s.title}</strong>${sparkline(s)}<small>${s.short}</small></button>`).join('');
       document.querySelectorAll('.strategy').forEach(b=>b.addEventListener('click',()=>selectStrategy(b.dataset.id)));
+      const categories=['Все',...new Set(templates.map(x=>x.group))];$('categoryFilters').innerHTML=categories.map(x=>`<button class="category-btn ${x==='Все'?'active':''}" data-category="${x}">${x}</button>`).join('');
+      $('categoryFilters').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{state.category=b.dataset.category;$('categoryFilters').querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));filterStrategies();}));
       filterStrategies();
     }
 
@@ -507,7 +537,7 @@
       templates.forEach(s=>{
         const hasShort=s.legs.some(l=>l[1]<0);
         const button=document.querySelector(`[data-id="${s.id}"]`);
-        button.classList.toggle('hidden',state.onlyBuy&&hasShort);
+        button.classList.toggle('hidden',(state.onlyBuy&&hasShort)||(state.category!=='Все'&&s.group!==state.category));
       });
       document.querySelectorAll('.sell-action').forEach(x=>x.style.display=state.onlyBuy?'none':'');
     }
@@ -532,7 +562,7 @@
     function renderLegs(){
       const names={call:'Call',put:'Put'};
       const available=type=>[...new Set(marketSeries().filter(x=>x.OPTIONTYPE===(type==='call'?'C':'P')).map(x=>+x.STRIKE))].sort((a,b)=>a-b);
-      $('legs').innerHTML=state.legs.map((l,i)=>`<div class="leg ${l.qty<0?'short':''}"><div class="leg-name"><strong>${l.qty>0?'Купить':'Продать'} ${names[l.type]}</strong><small>${state.marketMode?'Цена открытия; расчёты через вариационную маржу':l.qty>0?'Премия уплачивается':'Премия получается'}</small>${state.marketMode?`<small class="contract-code">${l.secid||'Контракт не найден'}</small>`:''}</div><label>Страйк${state.marketMode?`<select data-i="${i}" data-market-strike>${available(l.type).map(x=>`<option value="${x}" ${x===l.strike?'selected':''}>${fmt(x,2)}</option>`).join('')}</select>`:`<input type="number" data-i="${i}" data-k="strike" value="${l.strike}" step="10">`}</label><label>Цена опциона<input type="number" data-i="${i}" data-k="premium" value="${l.premium}" min="0" step="1" ${state.marketMode?'readonly':''}>${state.marketMode?`<span class="market-price-note">${l.priceSource||'—'}</span>`:''}</label><label>Кол-во<input type="number" data-i="${i}" data-k="qty" value="${Math.abs(l.qty)}" min="1" step="1"></label>${state.template.custom?`<button class="remove-leg" data-remove="${i}" title="Удалить ногу">×</button>`:''}</div>`).join('');
+      $('legs').innerHTML=state.legs.map((l,i)=>{const q=quoteQuality(l.priceSource);return `<div class="leg ${l.qty<0?'short':''}"><div class="leg-name"><strong>${l.qty>0?'Купить':'Продать'} ${names[l.type]}</strong><small>${state.marketMode?'Цена открытия; вариационная маржа':l.qty>0?'Премия уплачивается':'Премия получается'}</small>${state.marketMode?`<small class="contract-code">${l.secid||'Контракт не найден'}</small><span class="quote-badge ${q.kind}">${q.label}</span>`:''}</div><label>Страйк${state.marketMode?`<select data-i="${i}" data-market-strike>${available(l.type).map(x=>`<option value="${x}" ${x===l.strike?'selected':''}>${fmt(x,2)}</option>`).join('')}</select>`:`<input type="number" data-i="${i}" data-k="strike" value="${l.strike}" step="10">`}</label><label>Цена опциона<input type="number" data-i="${i}" data-k="premium" value="${l.premium}" min="0" step="1" ${state.marketMode?'readonly':''}>${state.marketMode?`<span class="market-price-note">${l.priceSource||'—'}</span>`:''}</label><label>Кол-во<input type="number" data-i="${i}" data-k="qty" value="${Math.abs(l.qty)}" min="1" step="1"></label>${state.template.custom?`<button class="remove-leg" data-remove="${i}" title="Удалить ногу">×</button>`:''}</div>`}).join('');
       $('legs').querySelectorAll('input').forEach(el=>el.addEventListener('input',()=>{const i=+el.dataset.i,k=el.dataset.k,v=+el.value||0;state.legs[i][k]=k==='qty'?Math.sign(state.legs[i].qty)*v:v;update();}));
       $('legs').querySelectorAll('[data-market-strike]').forEach(el=>el.addEventListener('change',()=>{const i=+el.dataset.i,old=state.legs[i];state.legs[i]=marketLeg(old.type,old.qty,+el.value);renderLegs();update();}));
       $('legs').querySelectorAll('[data-remove]').forEach(b=>b.addEventListener('click',()=>{state.legs.splice(+b.dataset.remove,1);renderLegs();update();}));
@@ -612,9 +642,12 @@
       const W=box.width,H=box.height,pad={l:61,r:22,t:25,b:42},xs=state.points.map(p=>p.x),allY=[...state.points.map(p=>p.y),...(state.pro?state.beforePoints.map(p=>p.y):[]),0];let minY=Math.min(...allY),maxY=Math.max(...allY);const span=Math.max(maxY-minY,10);minY-=span*.16;maxY+=span*.16;
       const minX=xs[0],maxX=xs.at(-1),x=v=>pad.l+(v-minX)/(maxX-minX)*(W-pad.l-pad.r),y=v=>pad.t+(maxY-v)/(maxY-minY)*(H-pad.t-pad.b);ctx.clearRect(0,0,W,H);ctx.font='11px Inter, sans-serif';
       for(let i=0;i<=5;i++){const v=minY+(maxY-minY)*i/5,py=y(v);ctx.strokeStyle='rgba(183,213,224,.09)';ctx.beginPath();ctx.moveTo(pad.l,py);ctx.lineTo(W-pad.r,py);ctx.stroke();ctx.fillStyle='#6f8791';ctx.textAlign='right';ctx.fillText(fmt(v,0),pad.l-10,py+4);}for(let i=0;i<=6;i++){const v=minX+(maxX-minX)*i/6;ctx.fillStyle='#6f8791';ctx.textAlign='center';ctx.fillText(fmt(v,0),x(v),H-17);}
-      const zero=y(0);ctx.strokeStyle='rgba(244,248,249,.35)';ctx.setLineDash([5,5]);ctx.beginPath();ctx.moveTo(pad.l,zero);ctx.lineTo(W-pad.r,zero);ctx.stroke();ctx.setLineDash([]);const sx=x(+$('spot').value||0);ctx.strokeStyle='rgba(104,184,255,.7)';ctx.setLineDash([3,4]);ctx.beginPath();ctx.moveTo(sx,pad.t);ctx.lineTo(sx,H-pad.b);ctx.stroke();ctx.setLineDash([]);
+      const zero=y(0);ctx.strokeStyle='rgba(244,248,249,.35)';ctx.setLineDash([5,5]);ctx.beginPath();ctx.moveTo(pad.l,zero);ctx.lineTo(W-pad.r,zero);ctx.stroke();ctx.setLineDash([]);
+      const strikes=[...new Set(state.legs.map(l=>l.strike))].sort((a,b)=>a-b);strikes.forEach((strike,i)=>{const px=x(strike);ctx.strokeStyle='rgba(247,199,109,.25)';ctx.setLineDash([2,5]);ctx.beginPath();ctx.moveTo(px,pad.t);ctx.lineTo(px,H-pad.b);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#b99a5d';ctx.textAlign='center';ctx.font='9px Inter, sans-serif';ctx.fillText(`K ${fmt(strike,0)}`,px,pad.t+10+(i%2)*11);});
+      exactBreakEvens().forEach(be=>{const px=x(be);ctx.strokeStyle='rgba(99,245,191,.42)';ctx.setLineDash([5,4]);ctx.beginPath();ctx.moveTo(px,pad.t);ctx.lineTo(px,H-pad.b);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#63f5bf';ctx.textAlign='center';ctx.font='9px Inter, sans-serif';ctx.fillText(`BE ${fmt(be,0)}`,px,H-pad.b-7);});
+      const sx=x(+$('spot').value||0);ctx.strokeStyle='rgba(104,184,255,.8)';ctx.setLineDash([3,4]);ctx.beginPath();ctx.moveTo(sx,pad.t);ctx.lineTo(sx,H-pad.b);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#68b8ff';ctx.textAlign='center';ctx.font='9px Inter, sans-serif';ctx.fillText('Сейчас',sx,H-pad.b+13);
       const plot=(pts,color,width,dash=[])=>{ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(x(p.x),y(p.y)):ctx.moveTo(x(p.x),y(p.y)));ctx.strokeStyle=color;ctx.lineWidth=width;ctx.setLineDash(dash);ctx.stroke();ctx.setLineDash([]);};
-      const grad=ctx.createLinearGradient(0,pad.t,0,H-pad.b);grad.addColorStop(0,'rgba(99,245,191,.17)');grad.addColorStop(1,'rgba(255,120,111,.07)');ctx.beginPath();state.points.forEach((p,i)=>i?ctx.lineTo(x(p.x),y(p.y)):ctx.moveTo(x(p.x),y(p.y)));ctx.lineTo(x(maxX),zero);ctx.lineTo(x(minX),zero);ctx.closePath();ctx.fillStyle=grad;ctx.fill();plot(state.points,'#63f5bf',2.5);if(state.pro)plot(state.beforePoints,'#f7c76d',2,[7,5]);
+      const grad=ctx.createLinearGradient(0,pad.t,0,H-pad.b);grad.addColorStop(0,'rgba(99,245,191,.17)');grad.addColorStop(.52,'rgba(99,245,191,.035)');grad.addColorStop(1,'rgba(255,120,111,.13)');ctx.beginPath();state.points.forEach((p,i)=>i?ctx.lineTo(x(p.x),y(p.y)):ctx.moveTo(x(p.x),y(p.y)));ctx.lineTo(x(maxX),zero);ctx.lineTo(x(minX),zero);ctx.closePath();ctx.fillStyle=grad;ctx.fill();for(let i=1;i<state.points.length;i++){const a=state.points[i-1],b=state.points[i];ctx.beginPath();ctx.moveTo(x(a.x),y(a.y));ctx.lineTo(x(b.x),y(b.y));ctx.strokeStyle=(a.y+b.y)/2>=0?'#63f5bf':'#ff786f';ctx.lineWidth=2.5;ctx.stroke();}if(state.pro)plot(state.beforePoints,'#f7c76d',2,[7,5]);
       if(hoverX!==null){const price=Math.max(minX,Math.min(maxX,minX+(hoverX-pad.l)/(W-pad.l-pad.r)*(maxX-minX))),pnl=pnlAt(price),before=beforePnlAt(price),px=x(price),py=y(pnl);ctx.fillStyle='#f4f8f9';ctx.beginPath();ctx.arc(px,py,4,0,Math.PI*2);ctx.fill();return{price,pnl,before,x:px,y:py,hint:zoneHint(price)};}
     }
 
