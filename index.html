@@ -70,6 +70,9 @@
     }
     .strategy:hover { transform: translateY(-2px); border-color: rgba(99,245,191,.34); }
     .strategy.active { border-color: var(--mint); background: linear-gradient(145deg, rgba(99,245,191,.14), rgba(99,245,191,.035)); }
+    .strategy.unavailable { position:relative; opacity:.42; cursor:not-allowed; filter:saturate(.45); }
+    .strategy.unavailable:hover { transform:none; border-color:var(--line); }
+    .strategy.unavailable::after { content:"Недоступно на ЕБС"; position:absolute; top:12px; right:12px; padding:4px 6px; border:1px solid rgba(255,120,111,.3); border-radius:999px; color:#ff9a93; background:rgba(255,120,111,.08); font-size:8px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; }
     .strategy .type { display: inline-block; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .11em; margin-bottom: 13px; }
     .strategy strong { display: block; font-size: 15px; margin-bottom: 7px; }
     .strategy small { color: var(--muted); line-height: 1.35; }
@@ -537,7 +540,8 @@
       templates.forEach(s=>{
         const hasShort=s.legs.some(l=>l[1]<0);
         const button=document.querySelector(`[data-id="${s.id}"]`);
-        button.classList.toggle('hidden',(state.onlyBuy&&hasShort)||(state.category!=='Все'&&s.group!==state.category));
+        const unavailable=state.onlyBuy&&hasShort;button.classList.toggle('unavailable',unavailable);button.disabled=unavailable;button.title=unavailable?'Стратегия содержит проданные опционы и недоступна в режиме ЕБС':'';
+        button.classList.toggle('hidden',state.category!=='Все'&&s.group!==state.category);
       });
       document.querySelectorAll('.sell-action').forEach(x=>x.style.display=state.onlyBuy?'none':'');
     }
